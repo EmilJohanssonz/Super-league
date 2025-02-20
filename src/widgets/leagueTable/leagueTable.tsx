@@ -1,23 +1,31 @@
-import { useState } from "react";
 import TeamInput from "../teamInput/teamInput";
+import { Team } from "../types/teams";
+import Modal from "../../components/modal/modal";
 import TeamList from "../teamList/teamList";
-
-//TODO: onclick funktion för klicka på ett lag som är med i listan och få upp en modal, med information om klubben.
-
+import { useState } from "react";
+import { useTeams } from "../../hook/useTeams";
 
 const LeagueTable = () => {
-  const [teams, setTeams] = useState([
-    { id: 1, name: "Arsenal", points: 0 },
-    { id: 2, name: "AIK", points: 0 },
-  ]);
+  const { teams, setTeams } = useTeams(); 
+
+  // states för input & modal
   const [teamName, setTeamName] = useState("");
   const [teamPoints, setTeamPoints] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
   const addTeam = () => {
     if (teamName && teamPoints) {
       setTeams([
         ...teams,
-        { id: Date.now(), name: teamName, points: Number(teamPoints) },
+        {
+          id: Date.now(),
+          name: teamName,
+          points: Number(teamPoints),
+          lastMatch: "",
+          clubValue: "",
+          location: "",
+          stadium: { name: "", capacity: 0 },
+        },
       ]);
       setTeamName("");
       setTeamPoints("");
@@ -41,8 +49,15 @@ const LeagueTable = () => {
           setTeamPoints={setTeamPoints}
           addTeam={addTeam}
         />
-        <TeamList teams={teams} removeTeam={removeTeam} />
+        <TeamList
+          teams={teams}
+          removeTeam={removeTeam}
+          setSelectedTeam={setSelectedTeam}
+        />
       </div>
+      {selectedTeam && (
+        <Modal team={selectedTeam} onClose={() => setSelectedTeam(null)} />
+      )}
     </div>
   );
 };

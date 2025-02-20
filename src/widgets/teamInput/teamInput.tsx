@@ -1,13 +1,7 @@
 import React from "react";
 import Button from "../../components/button/button";
+import { TeamInputProps } from "../types/teamInput";
 
-interface TeamInputProps {
-  teamName: string;
-  setTeamName: (name: string) => void;
-  teamPoints: string;
-  setTeamPoints: (points: string) => void;
-  addTeam: () => void;
-}
 
 const TeamInput: React.FC<TeamInputProps> = ({
   teamName,
@@ -23,7 +17,7 @@ const TeamInput: React.FC<TeamInputProps> = ({
         placeholder="Team Name"
         value={teamName}
         onChange={(e) => setTeamName(e.target.value)}
-        className="p-2 border border-white rounded w-full placeholder:text-blue-950 text-white"
+        className="p-2 border border-white rounded w-full placeholder:text-gray-400 text-white"
       />
       <input
         type="number"
@@ -32,7 +26,7 @@ const TeamInput: React.FC<TeamInputProps> = ({
         max={0}
         value={teamPoints}
         onChange={(e) => setTeamPoints(e.target.value)}
-        className="p-2 border border-white rounded w-1/3 placeholder:text-blue-950 text-white"
+        className="p-2 border border-white rounded w-1/3 placeholder:text-gray-400 text-white"
       />
       <Button addTeam={addTeam} />
     </div>
