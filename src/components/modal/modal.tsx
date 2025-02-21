@@ -1,16 +1,19 @@
-import { useTeams } from "../../hook/useTeams";
 import { Team } from "../../widgets/types/teams";
+import {JSX} from 'react';
 
-const Modal = ({
-  team,
-  onClose,
-}: {
-  team: Team | null;
-  onClose: () => void;
-}) => {
+type ModalProps = {
+  team: Team,
+  onClose: () => void,
+  setNewInfo: (e) => void,
+  addInfo: () => void,
+  value: string,
+  extraInfo: false | JSX.Element | null
+}
+
+const Modal = ({team, onClose, setNewInfo, addInfo, value, extraInfo}: ModalProps) => {
   if (!team) return null;
 
-  const { extraInfo, newInfo, setNewInfo, addInfo, removeInfo } = useTeams();
+  // const { extraInfo, newInfo, setNewInfo, addInfo, removeInfo } = useTeams();
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[url('/cl.jpg')] bg-cover bg-center">
@@ -24,29 +27,14 @@ const Modal = ({
           <li className="font-bold">Stadium: {team.stadium.name}</li>
           <li className="font-bold">Capacity: {team.stadium.capacity}</li>
         </ul>
-        {/* Lista med extra information */}
-        {extraInfo.length > 0 && (
-          <ul className="text-white overflow-y-scroll max-h-20 custom-scrollbar">
-            {extraInfo.map((item, index) => (
-              <li key={index} className="font-bold">
-                {item}
-                <button
-                  onClick={() => removeInfo(index)}
-                  className="ml-2 px-2 py-1 text-orange-600 hover:text-orange-800"
-                >
-                  ✖
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-
+        <ul className="text-white overflow-y-scroll max-h-20 custom-scrollbar">{extraInfo}
+        </ul>
         {/* Inputfält och knapp för att lägga till ny info */}
         <div className="mt-3 flex gap-2">
           <input
             type="text"
-            value={newInfo}
-            onChange={(e) => setNewInfo(e.target.value)}
+            value={value}
+            onChange={setNewInfo}
             placeholder="Add new info..."
             className="p-2 border rounded w-full text-white"
           />

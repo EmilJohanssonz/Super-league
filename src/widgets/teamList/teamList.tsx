@@ -1,6 +1,5 @@
 import React from "react";
 import TeamItem from "../teamItems/teamItems";
-import { Team } from "../types/teams";
 import { TeamListProps } from "../types/teamList";
 
 const TeamList: React.FC<TeamListProps> = ({
