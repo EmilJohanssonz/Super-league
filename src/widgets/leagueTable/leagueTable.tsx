@@ -27,15 +27,18 @@ const LeagueTable = () => {
   },
   ]);
 
-  const [extraInfo, setExtraInfo] = useState<string[]>([]);
+  const [extraInfo, setExtraInfo] = useState<{ [teamId: number]: string[] }>({});
   const [newInfo, setNewInfo] = useState("");
   const [teamName, setTeamName] = useState("");
   const [teamPoints, setTeamPoints] = useState("");
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
   const addInfo = () => {
-    if (newInfo.trim() !== "") {
-      setExtraInfo([...extraInfo, newInfo]);
+    if (newInfo.trim() !== "" && selectedTeam) {
+      setExtraInfo((prev) => ({
+        ...prev,
+        [selectedTeam.id]: [...(prev[selectedTeam.id] || []), newInfo],
+      }));
       setNewInfo("");
     }
   };
@@ -43,13 +46,19 @@ const LeagueTable = () => {
   const onChange = (e) => setNewInfo(e.target.value)
 
   const removeInfo = (index: number) => {
-    setExtraInfo(extraInfo.filter((_, i) => i !== index));
+    if (selectedTeam) {
+      setExtraInfo((prev) => ({
+        ...prev,
+        [selectedTeam.id]: prev[selectedTeam.id].filter((_, i) => i !== index),
+      }));
+    }
   };
 
+
   {/* Lista med extra information */}
-  const renderExtraInfo: false | JSX.Element = extraInfo.length > 0 && (
+  const renderExtraInfo: false | JSX.Element | null = selectedTeam && extraInfo[selectedTeam.id]?.length > 0 && (
     <ul className="text-white overflow-y-scroll max-h-20 custom-scrollbar">
-      {extraInfo.map((item, index) => (
+      {extraInfo[selectedTeam.id].map((item, index) => (
         <li key={index} className="font-bold">
           {item}
           <button
@@ -61,7 +70,8 @@ const LeagueTable = () => {
         </li>
       ))}
     </ul>
-  )
+  );
+
 
   // Input lägga till
 

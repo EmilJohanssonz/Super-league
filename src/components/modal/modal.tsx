@@ -1,5 +1,5 @@
 import { Team } from "../../widgets/types/teams";
-import {EventHandler, JSX} from 'react';
+import {JSX} from 'react';
 
 type ModalProps = {
   team: Team,
@@ -7,7 +7,7 @@ type ModalProps = {
   setNewInfo: (e) => void,
   addInfo: () => void,
   value: string,
-  extraInfo: false | JSX.Element
+  extraInfo: false | JSX.Element | null
 }
 
 const Modal = ({team, onClose, setNewInfo, addInfo, value, extraInfo}: ModalProps) => {
