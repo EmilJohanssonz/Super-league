@@ -4,7 +4,7 @@ import {JSX} from 'react';
 type ModalProps = {
   team: Team,
   onClose: () => void,
-  setNewInfo: (e) => void,
+  setNewInfo: (e: any) => void,
   addInfo: () => void,
   value: string,
   extraInfo: false | JSX.Element | null

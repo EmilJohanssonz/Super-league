@@ -2,7 +2,7 @@ import TeamInput from "../teamInput/teamInput";
 import { Team } from "../types/teams";
 import Modal from "../../components/modal/modal";
 import TeamList from "../teamList/teamList";
-import {JSX, useState} from 'react';
+import {JSX, SetStateAction, useState} from 'react';
 
 const LeagueTable = () => {
 
@@ -43,7 +43,7 @@ const LeagueTable = () => {
     }
   };
 
-  const onChange = (e) => setNewInfo(e.target.value)
+  const onChange = (e: { target: { value: SetStateAction<string>; }; }) => setNewInfo(e.target.value)
 
   const removeInfo = (index: number) => {
     if (selectedTeam) {
